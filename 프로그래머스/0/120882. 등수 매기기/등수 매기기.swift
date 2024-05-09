@@ -1,14 +1,18 @@
 import Foundation
 
 func solution(_ score:[[Int]]) -> [Int] {
-    var array: [Double] = []
+    var array: [Int] = []
     var answer: [Int] = []
     for i in score {
-        array.append(Double(i.reduce(0, +)) / Double(2))
+        array.append(i.reduce(0, +) / 2)
     }
-    var tmp = array.sorted(by: >)
+    var tmp = Array(Set(array)).sorted(by: >)
+    var d = 0
     for i in array {
-        answer.append(tmp.firstIndex(of: i)! + 1)
+        if array.filter{$0 == i}.count > 1 {
+            d +=  array.filter{$0 == i}.count - 1
+        }
+        answer.append(tmp.firstIndex(of: i)! + d)
     }
     return answer
 }
