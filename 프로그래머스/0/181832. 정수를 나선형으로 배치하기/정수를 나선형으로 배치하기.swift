@@ -1,27 +1,42 @@
 import Foundation
 
 func solution(_ n:Int) -> [[Int]] {
-    var x = Array((0..<n))
-    var y = Array((0..<n).reversed())
-    var arr = Array(repeating: Array(repeating: 0, count: n), count: n)
-    var count = 1
-    while true {
-        for i in x {
-            arr[y.last!][i] = count
-            count += 1
+ var result = Array(repeating: Array(repeating: 0, count: n), count: n)
+    var value = 1
+    var top = 0
+    var bottom = n - 1
+    var left = 0
+    var right = n - 1
+    
+    while top <= bottom && left <= right {
+        for i in left...right {
+            result[top][i] = value
+            value += 1
         }
-        if count >= n*n { 
-            break 
+        top += 1
+        
+        for i in top...bottom {
+            result[i][right] = value
+            value += 1
         }
-        y.removeLast()
-        y.reverse()
-
-        for i in y {
-            arr[i][x.last!] = count
-            count += 1
+        right -= 1
+        
+        if top <= bottom {
+            for i in (left...right).reversed() {
+                result[bottom][i] = value
+                value += 1
+            }
+            bottom -= 1
         }
-        x.removeLast()
-        x.reverse()
+        
+        if left <= right {
+            for i in (top...bottom).reversed() {
+                result[i][left] = value
+                value += 1
+            }
+            left += 1
+        }
     }
-    return arr
+    
+    return result
 }
