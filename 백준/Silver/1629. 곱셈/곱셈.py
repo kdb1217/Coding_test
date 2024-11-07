@@ -4,7 +4,7 @@ def solution(a, b):
     if b == 1:
         return a % c
 
-    half = solution(a, b // 2) % c
+    half = solution(a, b // 2)
     half = (half * half) % c
 
     if b % 2 == 0:
@@ -14,6 +14,6 @@ def solution(a, b):
         return (half * a) % c
 
 
-answer = solution(a, b) % c
+answer = solution(a, b)
 print(answer)
 
