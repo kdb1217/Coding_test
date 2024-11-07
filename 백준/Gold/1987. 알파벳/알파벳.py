@@ -10,6 +10,8 @@ def backtracking(alphas, i, j, cnt):
     di = [1, -1, 0, 0]
     dj = [0, 0, 1, -1]
     answer = max(cnt, answer)
+    if answer == 26:
+        return
 
 
     for k in range(4):
