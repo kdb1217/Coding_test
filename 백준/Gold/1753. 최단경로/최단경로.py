@@ -1,35 +1,34 @@
 import heapq
 
-INF = int(1e9)
-
 n, m = map(int, input().split())
 start = int(input())
-graph = [[] for i in range(n + 1)]
+INF = int(1e9)
+graph = [[] for _ in range(n + 1)]
 distance = [INF] * (n + 1)
 
 for _ in range(m):
-    # a 노드 b 이동하는 노드 c 가중치
+    #a 시작 노드 b 도착 노드 c 가중치
     a, b, c = map(int, input().split())
     graph[a].append((b, c))
 
 
 def dijkstra(startNode):
-    q = []
-    heapq.heappush(q, (0, startNode))
+    queue = []
+    heapq.heappush(queue, (0, startNode))
     distance[startNode] = 0
 
-    while q:
-        dist, now = heapq.heappop(q)
+    while queue:
+        dist, now = heapq.heappop(queue)
 
-        if distance[now] < dist:
+        if dist > distance[now]:
             continue
 
         for i in graph[now]:
-            cost = dist + i[1]
+            cost = distance[now] + i[1]
 
-            if cost < distance[i[0]]:
+            if distance[i[0]] > cost:
                 distance[i[0]] = cost
-                heapq.heappush(q, (cost, i[0]))
+                heapq.heappush(queue, (cost, i[0]))
 
 
 dijkstra(start)
