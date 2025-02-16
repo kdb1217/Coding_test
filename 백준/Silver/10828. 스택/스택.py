@@ -1,29 +1,49 @@
 import sys
+n = int(input())
+stack = []
 
-num = int(sys.stdin.readline())
-answer = []
-Stack = []
-for i in range(num):
-    answer.append(sys.stdin.readline())
-    if "push" in answer[i]:
-        tmp = answer[i].split(" ")
-        tmp[-1] = tmp[-1].replace("\n", "")
-        Stack.append(tmp[-1])
-    elif "pop" in answer[i]:
-        if not Stack:
-            print(-1)
-        else:
-            print(Stack[-1])
-            Stack.pop(-1)
-    elif "size" in answer[i]:
-        print(len(Stack))
-    elif "empty" in answer[i]:
-        if not Stack:
-            print(1)
-        else:
-            print(0)
-    elif "top" in answer[i]:
-        if not Stack:
-            print(-1)
-        else:
-            print(Stack[-1])
+
+def push(x):
+    stack.append(x)
+
+
+def pop():
+    if stack:
+        print(stack.pop())
+    else:
+        print(-1)
+
+
+def size():
+    print(len(stack))
+
+
+def empty():
+    if stack:
+        print(0)
+    else:
+        print(1)
+
+
+def top():
+    if stack:
+        print(stack[-1])
+    else:
+        print(-1)
+
+
+for _ in range(n):
+    cmd = list(sys.stdin.readline().split())
+
+    if cmd[0] == "push":
+        push(cmd[1])
+    elif cmd[0] == "pop":
+        pop()
+    elif cmd[0] == "size":
+        size()
+    elif cmd[0] == "empty":
+        empty()
+    else:
+        top()
+
+
