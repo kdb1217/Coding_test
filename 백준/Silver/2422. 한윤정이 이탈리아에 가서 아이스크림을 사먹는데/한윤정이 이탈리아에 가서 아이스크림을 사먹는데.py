@@ -1,14 +1,17 @@
-from math import factorial
 n, m = map(int, input().split())
-total = factorial(n) // (factorial(n-3) * factorial(3))
-bad_comb = set()
+iceCreams = [i for i in range(1, (n + 1))]
+forbiddenArr = [[False for _ in range(n + 1)] for _ in range(n + 1)]
+answer = 0
 
+for _ in range(m):
+    ice1, ice2 = map(int, input().split())
+    forbiddenArr[ice1][ice2] = True
+    forbiddenArr[ice2][ice1] = True
 
-for i in range(m):
-    bad_a, bad_b = map(int, input().split())
-    for j in range(1, n+1):
-       if j == bad_a or j == bad_b:
-           continue
-       bad_comb.add(tuple(sorted([bad_a, bad_b, j])))
+for i in range(1, n + 1):
+    for j in range(i + 1, n + 1):
+        for k in range(j + 1, n + 1):
+            if not forbiddenArr[i][j] and not forbiddenArr[i][k] and not forbiddenArr[j][k]:
+                answer += 1
 
-print(total - len(bad_comb))
+print(answer)
