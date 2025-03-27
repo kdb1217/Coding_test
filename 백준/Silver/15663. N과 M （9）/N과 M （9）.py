@@ -1,24 +1,28 @@
 n, m = map(int, input().split())
-arr = list(map(int, input().split()))
-result = set()
-visited = [False] * len(arr)
+arr = sorted(map(int, input().split()))
+answerSet = set()
+visited = [0] * (n + 1)
 
 
-def backtracking(depth, num, results, numbers):
-    if depth == m:
-        strNum = tuple(num)
-        if strNum not in results:
-            result.add(strNum)
+def backtracking(lst):
+
+    if len(lst) == m:
+        tupleedLst = tuple(lst)
+        if tupleedLst not in answerSet:
+            answerSet.add(tupleedLst)
+        return
+
+    if len(lst) > m:
         return
 
     for i in range(len(arr)):
-        if not visited[i]:
-            visited[i] = True
-            backtracking(depth + 1, num + [arr[i]], results, numbers)
-            visited[i] = False
+        if visited[i] == 0:
+            visited[i] = 1
+            backtracking(lst + [arr[i]])
+            visited[i] = 0
 
+backtracking([])
+answer = sorted(answerSet)
 
-backtracking(0, [], result, arr)
-answer = sorted(result)
 for i in answer:
     print(*i)
