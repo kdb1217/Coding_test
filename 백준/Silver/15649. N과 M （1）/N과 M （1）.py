@@ -1,17 +1,34 @@
-N, M = map(int, input().split())
-answer = []
+n, m = map(int, input().split())
+arr = list(range(1, n + 1))
+arr.sort()
+answerSet = set()
+visited = [0] * (n + 1)
 
 
-def backtracking():
-    if len(answer) == M:
-        print(' '.join(map(str, answer)))
+def backtracking(lst):
+    if len(lst) == m:
+        if tuple(lst) not in answerSet:
+            answerSet.add(tuple(lst))
         return
 
-    for i in range(1, N + 1):
-        if i not in answer:
-            answer.append(i)
-            backtracking()
-            answer.pop()
+    if len(lst) > m:
+        return
+
+    for i in range(len(arr)):
+        if visited[i] == 0:
+            visited[i] = 1
+            backtracking(lst + [arr[i]])
+            visited[i] = 0
 
 
-backtracking()
+
+
+
+backtracking([])
+answer = sorted(answerSet)
+
+for i in answer:
+    print(*i)
+
+
+
