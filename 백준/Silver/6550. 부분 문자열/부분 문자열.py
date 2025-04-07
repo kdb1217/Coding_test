@@ -1,20 +1,24 @@
 while True:
     try:
-        s, t = input().split()
+        n, m = str(input()).split()
+        tmpStr = ""
+        nIdx = 0
+        mIdx = 0
 
-        value = 0
-        flag = 0
-        for i in range(len(t)):
-            if t[i] == s[value]:
-                value += 1
-                if value == len(s):
-                    flag = 1
-                    break
+        while True:
+            if tmpStr == n:
+                print("Yes")
+                break
+            if nIdx >= len(n) or mIdx >= len(m):
+                print("No")
+                break
 
-        if flag == 1:
-            print('Yes')
-        else:
-            print('No')
+            if n[nIdx] == m[mIdx]:
+                tmpStr += m[mIdx]
+                nIdx += 1
+                mIdx += 1
+            else:
+                mIdx += 1
 
     except:
         break
