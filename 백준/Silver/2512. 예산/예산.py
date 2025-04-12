@@ -1,26 +1,38 @@
 n = int(input())
 arr = sorted(map(int, input().split()))
-money = int(input())
-maxMoney = max(arr)
+budget = int(input())
 
 start = 1
-end = maxMoney
-if sum(arr) <= money:
-    mid = maxMoney
-    print(maxMoney)
-else:
-    while start <= end:
-        mid = (start + end) // 2
-        cnt = 0
-        for i in arr:
-            if i >= mid:
-                cnt += mid
-            else:
-                cnt += i
-        if money - cnt < 0:
-            end = mid - 1
-        else:
-            start = mid + 1
-            answer = mid
+last = arr[-1]
+middle = (start + last) // 2
 
-    print(answer)
+def getBudget(num):
+    tmp = 0
+    for i in arr:
+        if num <= i:
+            tmp += num
+        else:
+            tmp += i
+
+    return tmp
+
+
+
+
+
+if sum(arr) <= budget:
+    print(arr[-1])
+else:
+    while start <= last:
+        result = getBudget(middle)
+
+        if result > budget:
+            last = middle - 1
+            middle = (start + last) // 2
+        else:
+            start = middle + 1
+            middle = (start + last) // 2
+
+
+    print(middle)
+
