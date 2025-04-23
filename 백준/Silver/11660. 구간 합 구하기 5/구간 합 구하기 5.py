@@ -1,21 +1,17 @@
-n, m = tuple(map(int, input().split()))
+import os, io, sys
+input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline
 
-arr = [list(map(int, input().split())) for _ in range(n)]
-tests = [list(map(int, input().split())) for _ in range(m)]
+N,M=map(int, input().split())
+arr = [ list(map(int, input().split())) for _ in range(N)]
 
-for i in range(n):
-    for j in range(1,n):
-        arr[i][j] += arr[i][j - 1]
+cumsum = [[0 for _ in range(N+1)] for _ in range(N+1)]  
+for i in range(1,N+1):
+    for j in range(1,N+1):
+        cumsum[i][j] = cumsum[i-1][j] + cumsum[i][j-1] - cumsum[i-1][j-1] + arr[i-1][j-1]
 
-
-for k in range(m):
-    answer = 0
-    i1, j1, i2, j2 = tests[k][0] - 1, tests[k][1] - 1, tests[k][2] - 1, tests[k][3] - 1
-    if j1 > 0:
-        for z in range(i1, i2 + 1):
-            answer += arr[z][j2] - arr[z][j1 - 1]
-    else:
-        for z in range(i1, i2 + 1):
-            answer += arr[z][j2]
-
-    print(answer)
+ans = []
+for _ in range(M):
+    x1, y1, x2, y2 = map(int, input().split())
+    ans.append(cumsum[x2][y2] - cumsum[x2][y1-1] - cumsum[x1-1][y2] + cumsum[x1-1][y1-1])
+    
+sys.stdout.write('\n'.join(map(str, ans)))
