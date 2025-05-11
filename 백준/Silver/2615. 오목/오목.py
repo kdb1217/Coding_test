@@ -1,39 +1,46 @@
-board = [list(map(int, input().split())) for _ in range(19)]
+arr = [list(map(int, input().split())) for _ in range(19)]
 
-# → ↓ ↘ ↗ 방향 (오른쪽, 아래, 오른쪽 아래, 오른쪽 위)
-dx = [0, 1, 1, -1]
-dy = [1, 0, 1, 1]
+def checkWin(color, location):
+    # ↗ → ↓ ↘ 방향
+    di = [-1, 0, 1, 1]
+    dj = [1, 1, 0, 1]
 
-def in_range(x, y):
-    return 0 <= x < 19 and 0 <= y < 19
+    for k in range(4):
+        tmpI = location[0]
+        tmpJ = location[1]
+        cnt = 1
 
-for i in range(19):
-    for j in range(19):
-        if board[i][j] == 0:
+        # 이전 돌이 같은 색이면 중복 → 무시
+        pastI = tmpI - di[k]
+        pastJ = tmpJ - dj[k]
+        if 0 <= pastI < 19 and 0 <= pastJ < 19 and arr[pastI][pastJ] == color:
             continue
-        color = board[i][j]
-        for d in range(4):
-            nx = i + dx[d]
-            ny = j + dy[d]
-            cnt = 1
 
-            # 이전 돌이 같은 색이면 중복 카운트 → skip
-            px = i - dx[d]
-            py = j - dy[d]
-            if in_range(px, py) and board[px][py] == color:
+        # 4개 더 탐색
+        for _ in range(4):
+            tmpI += di[k]
+            tmpJ += dj[k]
+            if 0 <= tmpI < 19 and 0 <= tmpJ < 19 and arr[tmpI][tmpJ] == color:
+                cnt += 1
+            else:
+                break
+
+        # 정확히 5개일 때만 인정
+        if cnt == 5:
+            # 6번째 돌이 같은 색이면 무효
+            afterI = tmpI + di[k]
+            afterJ = tmpJ + dj[k]
+            if 0 <= afterI < 19 and 0 <= afterJ < 19 and arr[afterI][afterJ] == color:
                 continue
 
-            # 현재 방향으로 4개 더 탐색
-            while in_range(nx, ny) and board[nx][ny] == color:
-                cnt += 1
-                if cnt > 5:
-                    break
-                nx += dx[d]
-                ny += dy[d]
+            print(1 if color == 1 else 2)
+            print(location[0] + 1, location[1] + 1)
+            exit()
 
-            if cnt == 5:
-                print(color)
-                print(i + 1, j + 1)  # 시작점 출력
-                exit()
+# 전체 바둑판 탐색
+for i in range(19):
+    for j in range(19):
+        if arr[i][j] != 0:
+            checkWin(arr[i][j], (i, j))
 
 print(0)
