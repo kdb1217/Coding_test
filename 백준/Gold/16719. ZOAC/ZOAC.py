@@ -1,29 +1,31 @@
-def solution(s, visited, start, end):
+n = input()
+visited = [False] * len(n)
+
+
+def solution(s, visited, start, end, ):
     if start >= end:
         return
 
-    minChar = '~'
-    minIndex = -1
+    minChar = "~"
+    minIdx = -1
 
     for i in range(start, end):
-        if not visited[i] and s[i] < minChar:
+        if not visited[i] and n[i] < minChar:
             minChar = s[i]
-            minIndex = i
+            minIdx = i
 
-    visited[minIndex] = True
+    visited[minIdx] = True
 
     for i in range(len(s)):
         if visited[i]:
-            print(s[i], end='')
+            print(s[i], end="")
     print()
 
-
-    solution(s, visited, minIndex + 1, end)
-    solution(s, visited, start, minIndex)
+    solution(s, visited, minIdx + 1, end)
+    solution(s, visited, start, minIdx)
 
     return
 
 
-s = input()
-visited = [False] * len(s)
-solution(s, visited, 0, len(s))
+solution(n, visited, 0, len(n))
+
